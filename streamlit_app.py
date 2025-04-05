@@ -2,6 +2,15 @@ import streamlit as st
 import pandas as pd
 from train import train_model
 from predictor import get_computer_move
+import streamlit.components.v1 as components
+
+# Play sound using HTML audio
+def play_sound(url):
+    components.html(f'''
+    <audio autoplay>
+        <source src="{url}" type="audio/mp3">
+    </audio>
+    ''', height=0)
 
 # Initialize session state
 if "history" not in st.session_state:
@@ -25,24 +34,26 @@ emojis = {"rock": "✊", "paper": "✋", "scissors": "✌️"}
 beats = {"paper": "rock", "scissors": "paper", "rock": "scissors"}
 
 # UI
-st.title("🧠 Rock, Paper, Scissors - ML Powered 🎮")
+st.markdown("<h1 style='text-align: center;'>🧠 Rock, Paper, Scissors - ML Powered 🎮</h1>", unsafe_allow_html=True)
 
 # Name input screen
 if not st.session_state.player_name:
     name = st.text_input("Enter your name to begin:")
     if name and st.button("Start Game"):
         st.session_state.player_name = name
-        st.rerun()  # ✅ works in latest Streamlit
+        st.rerun()
     st.stop()
 
 # Game End Conditions
 if st.session_state.score["player"] >= 5:
     st.balloons()
     st.success(f"🏆 {st.session_state.player_name} wins the game!")
+    play_sound("https://www.soundjay.com/human/sounds/applause-8.mp3")
     st.session_state.game_over = True
 
 if st.session_state.score["computer"] >= 5:
     st.error("💻 Computer wins the game! Better luck next time!")
+    play_sound("https://www.soundjay.com/button/sounds/button-10.mp3")
     st.session_state.game_over = True
 
 # Game Interface
@@ -65,17 +76,26 @@ if not st.session_state.game_over:
             st.session_state.score["ties"] += 1
             st.session_state.win_streak = 0
             st.session_state.last_result = "It's a tie! 🤝"
+            play_sound("https://www.soundjay.com/button/beep-05.mp3")
         elif beats[user_move] == comp_move:
             st.session_state.score["player"] += 1
             st.session_state.win_streak += 1
             st.session_state.last_result = "🎉 You win!"
+            play_sound("https://www.soundjay.com/button/sounds/button-4.mp3")
         else:
             st.session_state.score["computer"] += 1
             st.session_state.win_streak = 0
             st.session_state.last_result = "💻 Computer wins!"
+            play_sound("https://www.soundjay.com/button/sounds/button-10.mp3")
 
     st.markdown(f"### {st.session_state.last_result}")
     st.write(f"🔥 **Win Streak:** {st.session_state.win_streak}")
+
+    # Reaction GIFs
+    if "🎉" in st.session_state.last_result:
+        st.image("https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif", width=300)
+    elif "Computer wins" in st.session_state.last_result:
+        st.image("https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif", width=200)
 
     # Scoreboard
     st.subheader("📊 Scoreboard")
@@ -106,4 +126,5 @@ else:
         st.session_state.game_over = False
         st.session_state.win_streak = 0
         st.session_state.last_result = ""
-        st.rerun()  # ✅ correct call
+        st.rerun()
+
