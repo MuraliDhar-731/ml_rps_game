@@ -12,6 +12,34 @@ def play_sound(url):
     </audio>
     ''', height=0)
 
+# Theme selection (dark/light mode)
+theme = st.sidebar.radio("🎨 Select Theme", ["Dark Mode 🌙", "Light Mode ☀️"])
+
+if theme == "Dark Mode 🌙":
+    st.markdown("""
+        <style>
+        [data-testid="stAppViewContainer"] {
+            background-color: #121212;
+            color: white;
+        }
+        [data-testid="stSidebar"] {
+            background-color: #1E1E1E;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+else:
+    st.markdown("""
+        <style>
+        [data-testid="stAppViewContainer"] {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+        [data-testid="stSidebar"] {
+            background-color: #F0F2F6;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
 # Initialize session state
 if "history" not in st.session_state:
     st.session_state.history = []
@@ -36,7 +64,7 @@ emojis = {"rock": "✊", "paper": "✋", "scissors": "✌️"}
 beats = {"paper": "rock", "scissors": "paper", "rock": "scissors"}
 
 # UI title
-st.markdown("<h1 style='text-align: center;'>🧠 Rock, Paper, Scissors - ML Powered Designed by MD 🎮</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>🧠 Rock, Paper, Scissors - ML Powered 🎮</h1>", unsafe_allow_html=True)
 
 # Popup dialog for game rules
 if not st.session_state.rules_shown:
