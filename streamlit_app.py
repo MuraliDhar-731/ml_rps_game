@@ -27,19 +27,41 @@ if "win_streak" not in st.session_state:
     st.session_state.win_streak = 0
 if "last_result" not in st.session_state:
     st.session_state.last_result = ""
+if "rules_shown" not in st.session_state:
+    st.session_state.rules_shown = False
 
 # Game setup
 moves = ["rock", "paper", "scissors"]
 emojis = {"rock": "✊", "paper": "✋", "scissors": "✌️"}
 beats = {"paper": "rock", "scissors": "paper", "rock": "scissors"}
 
-# UI
-st.markdown("<h1 style='text-align: center;'>🧠 Rock, Paper, Scissors - ML Powered Designed by MD 🎮</h1>", unsafe_allow_html=True)
+# UI title
+st.markdown("<h1 style='text-align: center;'>🧠 Rock, Paper, Scissors - ML Powered 🎮</h1>", unsafe_allow_html=True)
+
+# Popup dialog for game rules
+if not st.session_state.rules_shown:
+    st.info("""
+    🎯 **Welcome to the ML-Powered Rock, Paper, Scissors!**
+
+    ### Game Rules:
+    - **Rock (✊)** beats **Scissors (✌️)**
+    - **Scissors (✌️)** beats **Paper (✋)**
+    - **Paper (✋)** beats **Rock (✊)**
+
+    - First player to reach **5 wins** 🏆 wins the game.
+    - Enter your name below to start playing!
+
+    Good luck and have fun! 🎉
+    """)
+    if st.button("👍 Got it, Let's Play!"):
+        st.session_state.rules_shown = True
+        st.rerun()
+    st.stop()
 
 # Name input screen
 if not st.session_state.player_name:
     name = st.text_input("Enter your name to begin:")
-    if name and st.button("Start Game"):
+    if name and st.button("Start Game 🚀"):
         st.session_state.player_name = name
         st.rerun()
     st.stop()
@@ -61,7 +83,7 @@ if not st.session_state.game_over:
     st.subheader(f"Welcome, {st.session_state.player_name} 👋")
     user_move = st.radio("Choose your move:", moves, horizontal=True)
 
-    if st.button("Play Round"):
+    if st.button("Play Round 🔥"):
         prev_move = st.session_state.last_move
         st.session_state.history.append([prev_move, user_move])
         st.session_state.last_move = user_move
@@ -110,7 +132,7 @@ if not st.session_state.game_over:
         st.subheader("🕹️ Last 5 Rounds")
         st.table(history_df)
 
-    if st.button("Quit Game"):
+    if st.button("Quit Game ❌"):
         st.session_state.game_over = True
         st.write("👋 Game Over. Thanks for playing!")
 
@@ -119,7 +141,7 @@ else:
     st.header("🚪 Game Ended")
     st.write("Final scores:")
     st.write(st.session_state.score)
-    if st.button("Play Again"):
+    if st.button("Play Again 🔄"):
         st.session_state.history = []
         st.session_state.score = {"player": 0, "computer": 0, "ties": 0, "rounds": 0}
         st.session_state.last_move = "rock"
@@ -127,4 +149,3 @@ else:
         st.session_state.win_streak = 0
         st.session_state.last_result = ""
         st.rerun()
-
