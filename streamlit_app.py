@@ -36,7 +36,7 @@ emojis = {"rock": "✊", "paper": "✋", "scissors": "✌️"}
 beats = {"paper": "rock", "scissors": "paper", "rock": "scissors"}
 
 # UI title
-st.markdown("<h1 style='text-align: center;'>🧠 Rock, Paper, Scissors - ML Powered 🎮</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>🧠 Rock, Paper, Scissors - ML Powered Designed by MD 🎮</h1>", unsafe_allow_html=True)
 
 # Popup dialog for game rules
 if not st.session_state.rules_shown:
