@@ -12,18 +12,25 @@ def play_sound(url):
     </audio>
     ''', height=0)
 
-# Theme selection (dark/light mode)
+# 🌙/☀️ Theme Toggle
 theme = st.sidebar.radio("🎨 Select Theme", ["Dark Mode 🌙", "Light Mode ☀️"])
 
 if theme == "Dark Mode 🌙":
     st.markdown("""
         <style>
         [data-testid="stAppViewContainer"] {
-            background-color: #121212;
-            color: white;
+            background-color: #121212 !important;
+            color: #FFFFFF !important;
         }
         [data-testid="stSidebar"] {
-            background-color: #1E1E1E;
+            background-color: #1E1E1E !important;
+            color: #FFFFFF !important;
+        }
+        div.stButton > button {
+            color: #FFFFFF !important;
+        }
+        div.stRadio > div {
+            color: #FFFFFF !important;
         }
         </style>
         """, unsafe_allow_html=True)
@@ -31,11 +38,18 @@ else:
     st.markdown("""
         <style>
         [data-testid="stAppViewContainer"] {
-            background-color: #FFFFFF;
-            color: #000000;
+            background-color: #FFFFFF !important;
+            color: #000000 !important;
         }
         [data-testid="stSidebar"] {
-            background-color: #F0F2F6;
+            background-color: #F0F2F6 !important;
+            color: #000000 !important;
+        }
+        div.stButton > button {
+            color: #000000 !important;
+        }
+        div.stRadio > div {
+            color: #000000 !important;
         }
         </style>
         """, unsafe_allow_html=True)
@@ -63,10 +77,10 @@ moves = ["rock", "paper", "scissors"]
 emojis = {"rock": "✊", "paper": "✋", "scissors": "✌️"}
 beats = {"paper": "rock", "scissors": "paper", "rock": "scissors"}
 
-# UI title
+# Title
 st.markdown("<h1 style='text-align: center;'>🧠 Rock, Paper, Scissors - ML Powered 🎮</h1>", unsafe_allow_html=True)
 
-# Popup dialog for game rules
+# Game rules popup
 if not st.session_state.rules_shown:
     st.info("""
     🎯 **Welcome to the ML-Powered Rock, Paper, Scissors!**
